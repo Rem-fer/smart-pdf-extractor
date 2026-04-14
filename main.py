@@ -14,7 +14,7 @@ load_dotenv()
 
 PASSWORD = os.getenv("APP_PASSWORD")
 EMAIL = os.getenv("EMAIL")
-FOLDER = "/Users/remyfernando/desktop/Noguchi Active/tradewind payslips/25:26"
+FOLDER = "/Users/remyfernando/desktop/Noguchi Active/tradewind payslips/26:27"
 
 
 def extract_pdf_text(reader):
@@ -125,6 +125,7 @@ def save_payslip(payslip_object, payslip_data, folder_path):
         writer.add_page(page)
     with open(f"{folder_path}/tradewind_{payslip_data['period']}.pdf", "wb") as f:
         writer.write(f)
+
 def process_attachment(att):
     """Decrypt, parse and store a single payslip PDF attachment.
 
@@ -137,7 +138,7 @@ def process_attachment(att):
      """
     pdf_bytes = io.BytesIO(att.payload)
     reader = PdfReader(pdf_bytes)
-    reader.decrypt("250890")
+    reader.decrypt(os.getenv("PDF_PASSWORD"))
 
     payslip_data = None
     for attempt in range(3):
